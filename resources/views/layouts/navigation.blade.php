@@ -17,20 +17,19 @@
                     </x-nav-link>
 
                     @hasrole('mahsiswa')
-                    <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.index')">
+                    <x-nav-link :href="route('book')" :active="request()->routeIs('book')">
                         {{ __('List Buku') }
                     </x-nav-link>
-                    @endhasrole
 
+                    @endhasrole
                     @hasrole('pustakawan')
-                    <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.index')">
+                    <x-nav-link :href="route('book')" :active="request()->routeIs('book')">
                         {{ __('List Buku') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.index')">
+                    <x-nav-link :href="route('book')" :active="request()->routeIs('book')">
                         {{ __('List User') }}
                     </x-nav-link>
                     @endhasrole
-
                 </div>
             </div>
 
