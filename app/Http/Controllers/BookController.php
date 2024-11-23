@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BooksExport;
 use App\Models\Book;
 use App\Models\Bookshelf;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Storage;
 
 class BookController extends Controller
@@ -68,7 +71,7 @@ class BookController extends Controller
             'bookshelf_id' => 'required |max :5',
             ]);
             if ($request->hasFile('cover')) {
-                if(book->cover !=null){
+                if($book->cover !=null){
                     Storage::delete('public/cover_buku/');
                 }
                 $path = $request->file('cover')->storeAs(
@@ -102,7 +105,15 @@ class BookController extends Controller
         );
         return redirect()->route('book')->with($notification);
     }
+    public function print(){
+        $data['books'] = Book::with('bookshelf')->get();
+        $pdf = Pdf::loadView('books.print',$data);
+        return $pdf->stream('ListBuku.pdf');
+    }
 
+    public function export(){
+        return Excel::download(new BooksExport, 'BooksData.xlsx');
+    }
 
 }
 
